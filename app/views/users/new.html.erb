@@ -1,14 +1,14 @@
 <% if @user.errors.any? %>
-    <p class="ALERT-danger">The form has <%= pluralize(@user.errors.count, "error") %>.</p>
+    <p class="ALERT-danger">The form has <%= pluralize(@user.errors.count, 'error') %>.</p>
     <ul>
-        <% @user.error.full_messages.each do |message| %>
-            <li><%= message %></li>
-        <% end %>
+	<% @user.errors.full_messages.each do |message| %>
+	    <li><%= message %></li>
+	<% end %>
     </ul>
 <% end %>
 
-<%= form for @user do |f| %>
-    <%= f.label :name, "Username" %>
+<%= form_for @user do |f| %>
+    <%= f.label :name, 'Username' %>
     <%= f.text_field :name %>
 
     <%= f.label :email %>
@@ -17,5 +17,6 @@
     <%= f.label :password %>
     <%= f.password_field :password %>
 
-    <%= f.submit "Submit" %>
+    <%= f.submit 'Submit' %>
 <% end %>
+
