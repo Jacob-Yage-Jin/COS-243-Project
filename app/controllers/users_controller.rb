@@ -24,5 +24,21 @@ class UsersController < ApplicationController
 	    flash[:danger] = "Unable to find user"
 	    redirect_to users_path
     end
+
+    def edit
+        @user = User.find(params[:id])
+    end
+
+    def update
+        @user = User.find(params[:id])
+        if @uesr.find(params.require(:user).permit(:name, :email, :password))
+            flash[:success] = "Profile updated"
+            redirect_to @user
+        else
+            flash.now[:danger] = "Failed to update profile"
+            render 'edit'
+        end
+    end
+
 end
 

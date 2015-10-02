@@ -20,9 +20,9 @@ describe "User Pages" do
             specify { expect(response).to redirect_to(users_path) }
 
             describe "follow redirect" do
-            before { visit user_path(-1) }
+                before { visit user_path(-1) }
 
-            it { should have_alert(:danger, text: "Unable") }
+                it { should have_alert(:danger, text: "Unable") }
             end
         end
 
