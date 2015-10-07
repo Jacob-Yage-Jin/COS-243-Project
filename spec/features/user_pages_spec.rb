@@ -45,6 +45,8 @@ describe "User Pages" do
     end
 
     describe "creating user" do
+        let (:submit) { 'Submit' }
+        
         before { visit new_user_path }
 
         it "hides password text" do
