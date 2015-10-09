@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+    before_action :ensure_user_logged_in, only: [:edit]
+    before_action :ensure_right_user, only: [:edit]
     def index
 	    @users = User.all
     end
@@ -8,7 +10,7 @@ class UsersController < ApplicationController
     end
 
     def create
-	    @user = User.new(params.require(:user).permit(:name, :email, :password))
+        @user = User.new(user_params)
 	    if @user.save
 	        flash[:success] = "Welcome to the site, #{@user.name}"
 	        redirect_to @user
@@ -26,12 +28,11 @@ class UsersController < ApplicationController
     end
 
     def edit
-        @user = User.find(params[:id])
     end
 
     def update
         @user = User.find(params[:id])
-        if @uesr.update(params.require(:user).permit(:name, :email, :password))
+        if @uesr.update(user_params)
             flash[:success] = "Profile updated"
             redirect_to @user
         else
@@ -40,5 +41,38 @@ class UsersController < ApplicationController
         end
     end
 
-end
+    def destroy
+        @user = User.find(params[:id])
+        @user.destroy
+        flash[:success] = "#{@user.name} removed from the site"
+        redirect_to users_path
+    end
 
+    private
+
+    def user_params
+        params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+
+    def ensure_user_logged_in
+        @user = User.find(params[:id])
+        unless current_user?(@user)
+            flash[:warning] = "Not logged in as #{@user.name}"
+            redirect_to login_path
+        end
+    rescue
+	    flash[:danger] = "Unable to find user"
+	    redirect_to users_path
+    end
+
+    def ensure_right_user
+        @user = User.find(params[:id])
+        unless current_user?(@user)
+            flash[:warning] = "Unable to edit other's profile"
+            redirect_to users_path
+        end
+    rescue
+	    flash[:danger] = "Unable to find user"
+	    redirect_to users_path
+    end
+end

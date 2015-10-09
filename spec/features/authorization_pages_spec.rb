@@ -11,7 +11,7 @@ describe 'AuthorizationPages' do
 		let (:browser_path) { edit_user_path(user) }
 		let (:direct_path) { user_path(user) }
 		let (:direct_http_method) { :patch }
-	    end
+        end
 	end
     end
 
