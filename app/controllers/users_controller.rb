@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-    before_action :ensure_user_logged_in, only: [:edit]
-    before_action :ensure_right_user, only: [:edit]
+    before_action :ensure_user_logged_in, only: [:edit, :update]
+    before_action :ensure_right_user, only: [:edit, :update]
     def index
 	    @users = User.all
     end
