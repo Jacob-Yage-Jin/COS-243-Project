@@ -76,11 +76,11 @@ ActiveRecord::Schema.define(version: 20151009042617) do
     t.string   "email"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
-    t.string   "password_digest"
     t.boolean  "admin",           default: false
     t.integer  "church_id"
     t.string   "phone_number"
     t.binary   "picture"
+    t.string   "password_digest"
   end
 
   add_index "users", ["church_id"], name: "index_users_on_church_id"
