@@ -9,4 +9,12 @@ class RidesController < ApplicationController
 		   end
 	@rides = Ride.order(ordering)
     end
+    
+    def show
+    	@rides = find(params(:id))
+    end
+    
+    def new
+    	@rides = Ride.new
+    end
 end

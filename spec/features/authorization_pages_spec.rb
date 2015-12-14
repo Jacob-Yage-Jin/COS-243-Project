@@ -1,25 +1,64 @@
-require 'rails_helper'
-
+require 'spec_helper'
 
 describe 'AuthorizationPages' do
     subject { page }
 
     let (:user) { FactoryGirl.create(:user) }
+    let (:church) {FactoryGirl.create(:church) }
+    let (:ride) { FactoryGirl.create(:ride) }
+    let (:service) { FactoryGirl.create(:service) }
 
     describe "non-authenticated users" do
-	    describe "for Users controller" do
-	        it_behaves_like "redirects to a login" do
-		        let (:browser_path) { edit_user_path(user) }
-		        let (:direct_path) { user_path(user) }
-		        let (:direct_http_method) { :patch }
-
-            end
-	        it_behaves_like "redirects to a login", skip_browser: true do
-		        let (:direct_path) { user_path(user) }
-		        let (:direct_http_method) { :delete }
-	        end
-            
+	describe "for Users controller" do
+	    it_behaves_like "redirects to a login" do
+		let (:browser_path) { edit_user_path(user) }
+		let (:direct_path) { user_path(user) }
+		let (:direct_http_method) { :patch }
 	    end
+
+	    it_behaves_like "redirects to a login", skip_browser: true do
+		let (:direct_path) { user_path(user) }
+		let (:direct_http_method) { :delete }
+	    end
+	end
+
+	describe "for Churches controller" do
+	    it_behaves_like "redirects to a login" do
+		let (:browser_path) { new_church_path }
+		let (:direct_path) { churches_path }
+		let (:direct_http_method) { :post }
+	    end
+
+	    it_behaves_like "redirects to a login" do
+		let (:browser_path) { edit_church_path(church) }
+		let (:direct_path) { church_path(church) }
+		let (:direct_http_method) { :patch }
+	    end
+
+	    it_behaves_like "redirects to a login", skip_browser: true do
+		let (:direct_path) { church_path(church) }
+		let (:direct_http_method) { :delete }
+	    end
+	end
+
+	describe "for Rides controller" do
+	    it_behaves_like "redirects to a login" do
+		let (:browser_path) { new_service_ride_path(service) }
+		let (:direct_path) { service_rides_path(service) }
+		let (:direct_http_method) { :post }
+	    end
+
+	    it_behaves_like "redirects to a login" do
+		let (:browser_path) { edit_ride_path(ride) }
+		let (:direct_path) { ride_path(ride) }
+		let (:direct_http_method) { :patch }
+	    end
+
+	    it_behaves_like "redirects to a login", skip_browser: true do
+		let (:direct_path) { ride_path(ride) }
+		let (:direct_http_method) { :delete }
+	    end
+	end
     end
 
     describe "authenticated users" do
@@ -71,6 +110,25 @@ describe 'AuthorizationPages' do
 
 		it_behaves_like "redirects to root", skip_browser: true do
 		    let (:direct_path) { user_path(user) }
+		    let (:direct_http_method) { :delete }
+		end
+	    end
+	end
+
+	describe "for Churches controller" do
+	    describe "edit action" do
+		let (:login_user) { FactoryGirl.create(:user) }
+		let (:error_type) { :danger }
+
+		it_behaves_like "redirects to root" do
+		    let (:browser_path) { edit_church_path(church) }
+		    let (:error_signature) { 'Edit church profile' }
+		    let (:direct_path) { church_path(church) }
+		    let (:direct_http_method) { :patch }
+		end
+
+		it_behaves_like "redirects to root", skip_browser: true do
+		    let (:direct_path) { church_path(church) }
 		    let (:direct_http_method) { :delete }
 		end
 	    end
