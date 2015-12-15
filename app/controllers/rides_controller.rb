@@ -37,7 +37,7 @@ class RidesController < ApplicationController
     
     def create
     	@rides = Ride.new(ride_params)
-    	@rides .user = current_user
+    	@rides.user = current_user
     	if @rides.save
     		flash[:success] = "Ride created"
     	else

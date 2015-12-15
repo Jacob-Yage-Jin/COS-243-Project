@@ -15,7 +15,6 @@ class ChurchesController < ApplicationController
 
     def create
     	@church = Church.new(church_params)
-    	@church.user = current_user
     	if @church.save
     	    flash[:success] = "Church created"
     	    redirect_to @church
