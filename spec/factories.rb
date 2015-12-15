@@ -36,6 +36,13 @@ FactoryGirl.define do
     factory :ride do
     	user
     	service
+    	leave_time "6:00"
+    	return_time "10:00"
+    	number_of_seats "7"
+    	seats_available "5"
+    	vehicle "van"
+    	date "2015-12-16"
+    	meeting_location "DC"
 		transient { num_riders 1 }
 
 		after(:create) do |ride, evaluator|
