@@ -1,0 +1,8 @@
+<%= render "shared/errors", object: @rides %>
+
+<%= form_for @rides do |form| %>
+        <%= render partial: "fields", locals: { f: form } %>
+
+        <%= form.submit 'Create new rides' %>
+
+<% end %>

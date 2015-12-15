@@ -1,4 +1,5 @@
 class ChurchesController < ApplicationController
+    
     def index
         @churches = Church.all
     end
@@ -23,6 +24,29 @@ class ChurchesController < ApplicationController
     	    render 'new'
     	end
     end
+    
+    def edit
+    end
+
+    def update
+        @church = Church.find(params[:id])
+        if @church.update(church_params)
+            flash[:success] = "Church updated"
+            redirect_to @church
+        else
+            flash.now[:danger] = "Failed to update church"
+            render 'edit'
+        end
+    end
+    
+    def destroy
+        @church = Church.find(params[:id])
+        if current_user.admin
+            @church.destroy
+            flash[:success] = "#{@church.name} removed from the site"
+            redirect_to churches_path
+        end
+    end
 
     private
 
@@ -36,4 +60,5 @@ class ChurchesController < ApplicationController
                             							      :finish_time,
                             							      :location ] )
     end
+    
 end
