@@ -1,5 +1,20 @@
 class User < ActiveRecord::Base
-        validates :name, presence: true, length: { maximum: 50 }
-        validates :email, presence: true, uniqueness: { case_sensitive: false }
-        validates :password, presence: true, uniqueness: { case_sensitive: false }
+    has_many :rides_provided, class_name: 'Ride', foreign_key: 'user_id'
+    has_many :user_rides
+    has_many :rides, through: :user_rides
+
+    belongs_to :church, inverse_of: :users
+    has_one :church_managed, inverse_of: :user, class_name: 'Church', foreign_key: 'user_id'
+
+    has_secure_password
+
+    validates :name, presence: true, length: { maximum: 50 }, uniqueness: true
+    validates :email, presence: true, uniqueness: true, 
+    format: { with: /\A         # begin of input
+			 [-\w+.]+   # dash, wordy, plus, or dot characters
+			 @          # required at sign
+			 [-a-z\d.]+ # dash, letter, digit, or dot chars
+			 \z         # end of input
+		        /xi }
+    validates :password, presence: true
 end
